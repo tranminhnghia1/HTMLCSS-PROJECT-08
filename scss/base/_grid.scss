@@ -1,0 +1,164 @@
+@use "sass:math";
+
+//breakpoint vào boostrap xem
+$grid-breakpoints: (
+    //thông số của breakpoin, màn hình
+    xs: 0,
+    //kiểu maps: key:value
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px
+);
+
+$container-max-widths: (
+    //độ rộng tối đa của breakpoint
+    sm: 540px,
+    md: 720px,
+    lg: 960px,
+    xl: 1140px,
+    xxl: 1370px
+);
+
+
+$grid-columns: 12;
+$grid-gutter-width: 30px;
+$gutters: (
+    0: 0,
+    1: 0.25,
+    2: 0.5,
+    3: 1,
+    4: 1.5,
+    5: 3,
+);
+
+%gutter-padding {
+    padding-left: calc(var(--grid-gutter-x) * 0.5);
+    padding-right: calc(var(--grid-gutter-x) * 0.5);
+}
+
+.container-fluid {
+    --grid-gutter-x: #{$grid-gutter-width};
+    --grid-gutter-y: 0;
+
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    @extend %gutter-padding;
+}
+
+.container {
+    @extend .container-fluid;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(var(--grid-gutter-y) * -1);
+    margin-left: calc(var(--grid-gutter-x) * 0.5 * -1);
+    margin-right: calc(var(--grid-gutter-x) * 0.5 * -1);
+
+    // &[class*="row-cols-"]>*,
+    // [class*="col-"] {
+    //     @extend %gutter-padding;
+
+    // }
+    >* {
+        margin-top: var(--grid-gutter-y);
+        @extend %gutter-padding;
+    }
+
+}
+
+//là năm ở trong row
+/* > * {
+    margin-top: var(--grid-gutter-y);
+} */
+.col {
+    flex: 1 0 auto;
+
+}
+
+@mixin make-media-query($dimension, $bypass: false) {
+    @if($bypass) {
+        @content;
+    }
+
+    @else {
+        @media (min-width: $dimension) {
+            @content;
+        }
+    }
+
+}
+
+@mixin make-row-columns($infix) {
+    @for $i from 1 through $grid-columns * 0.5 {
+        .row-cols#{$infix}-#{$i}>* {
+            flex: 0 0 auto;
+            width: math.div(100%, $i);
+        }
+    }
+}
+
+@mixin make-colunms($infix) {
+    @for $i from 1 through $grid-columns {
+        .col#{$infix}-#{$i} {
+            flex: 0 0 auto;
+            width: math.div(100%, $grid-columns) *$i;
+        }
+    }
+}
+
+@mixin make-offsets($infix) {
+
+    //bù đắp các cột lưới
+    @for $i from 0 to $grid-columns {
+        .offset#{$infix}-#{$i} {
+            margin-left: math.div(100%, $grid-columns) *$i;
+        }
+    }
+}
+
+@mixin make-gutters($infix) {
+
+    @each $i,
+    $ratio in $gutters {
+        .g#{$infix}-#{$i} {
+            --grid-gutter-x: #{$grid-gutter-width * $ratio};
+            --grid-gutter-y: #{$grid-gutter-width * $ratio};
+        }
+
+        .gx#{$infix}-#{$i} {
+            --grid-gutter-x: #{$grid-gutter-width * $ratio};
+        }
+
+        .gy#{$infix}-#{$i} {
+            --grid-gutter-y: #{$grid-gutter-width * $ratio};
+        }
+    }
+}
+
+@each $breakpoint,
+$dimension in $grid-breakpoints {
+    $max-width: map-get($container-max-widths , $breakpoint);
+
+    $infix: if($breakpoint ==xs, "", "-#{$breakpoint}");
+
+    @include make-media-query($dimension, $breakpoint ==xs) {
+        .container {
+            max-width: $max-width;
+        }
+
+        //=====row=cols-*
+        @include make-row-columns($infix);
+
+        //=
+        @include make-colunms($infix);
+
+        @include make-offsets($infix);
+
+        @include make-gutters($infix);
+    }
+}

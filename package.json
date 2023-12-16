@@ -1,0 +1,21 @@
+{
+  "name": "project-08",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass": "sass scss:assets/css -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tranminhnghia1/HTMLCSS-PROJECT-08.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tranminhnghia1/HTMLCSS-PROJECT-08/issues"
+  },
+  "homepage": "https://github.com/tranminhnghia1/HTMLCSS-PROJECT-08#readme"
+}
