@@ -1,0 +1,123 @@
+.dropdown {
+    position: absolute;
+    padding-top: 54px;
+    left: 0;
+    display: none;
+    width: min(1240px, 100%);
+
+    &__inner {
+        --inner-max-height: min(582px, 100vh - 158px);
+        --inner-padding: 60px;
+        border-radius: 20px;
+        background: var(--dropdown-bg-color);
+        box-shadow: 0px 40px 90px 20px var(--dropdown-shadown-color);
+        padding: 30px;
+        position: relative;
+        max-height: var(--inner-max-height);
+
+        &::before {
+            content: url("../icons/dropdown-arrow.svg");
+            position: absolute;
+            top: -16px;
+            left: var(--arrow-left-pos);
+            translate: -50%;
+            //filter: var(--dropdown-arrow-color);
+        }
+    }
+}
+
+.top-menu {
+    
+    position: relative;
+
+    &__main {
+        height: calc(var(--inner-max-height) - var(--inner-padding));
+        width: 292px;
+        border-right: 1px solid var(--top-menu-border-color);
+        overflow-y: auto;
+    }
+}
+
+.menu-column {
+    display: flex;
+    gap: 14px;
+    + .menu-column{
+        margin-top: 30px;
+    }
+    &__icon {
+        position: relative;
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+    }
+
+    &__content {
+        flex: 1;
+    }
+
+    &__icon-1 {
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
+    }
+
+    &__icon-2 {
+        width: 24px;
+        height: 24px;
+        object-fit: cover;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        filter: var(--menu-column-icon-color);
+    }
+
+    &__heading {
+        margin-top: 4px;
+        font-size: 1.6rem;
+        font-weight: 500;
+        line-height: 150%;
+
+    }
+
+    &__list {
+        margin-top: 19px;
+    }
+    &__item{
+        &--active .sub-menu{
+            display: grid;
+        }
+    } 
+
+    &__item--active > &__link,
+    &__item:hover > &__link{
+            color: #0071DC;
+            font-weight: 500;
+    }
+    &__link {
+        display: block;
+        font-size: 1.4rem;
+        line-height: 142.857%;
+        padding: 7px 0;
+
+        
+    }
+}
+
+.sub-menu{
+    position: absolute;
+    inset: 0 0 0 296px;
+    padding-left: 30px;
+    overflow-y: auto;
+    display: none;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+
+    &--not-main{
+        position: initial;
+        display: grid;
+        inset: initial;
+        padding-left: 0;
+        grid-template-columns: repeat(4, 1fr);
+        height: calc(var(--inner-max-height) - var(--inner-padding));
+    }
+}

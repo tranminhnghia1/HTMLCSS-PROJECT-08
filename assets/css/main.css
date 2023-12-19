@@ -1209,6 +1209,11 @@ html.dark {
   --top-act-shadow: rgba(0, 0, 0, 0.2);
   --top-act-group-separate: #EDEDF6;
   --body-bg: #292E39;
+  --dropdown-bg-color: #292e39;
+  --dropdown-shadown-color: rgba(23, 28, 40, 0.4);
+  --dropdown-arrow-color: brightness(0) saturate(100%) invert(15%) sepia(35%) saturate(439%) hue-rotate(186deg) brightness(92%) contrast(84%);
+  --top-menu-border-color: #171C28;
+  --menu-column-icon-color: brightness(0) saturate(100%) invert(91%) sepia(3%) saturate(353%) hue-rotate(282deg) brightness(109%) contrast(96%);
 }
 
 html {
@@ -1219,6 +1224,9 @@ html {
   --top-act-shadow: rgba(237, 237, 246, 0.20);
   --top-act-group-separate: #ededf6;
   --body-bg: #f6f6f6;
+  --dropdown-bg-color: #fff;
+  --dropdown-shadown-color: rgba(200, 200, 200, 0.4);
+  --top-menu-border-color: #D2D1D6;
 }
 @media (max-width: 991.98px) {
   html {
@@ -1233,6 +1241,7 @@ html {
 .top-bar {
   display: flex;
   align-items: center;
+  position: relative;
   padding: 30px 0;
 }
 @media (max-width: 991.98px) {
@@ -1240,7 +1249,7 @@ html {
     padding: 20px 0;
   }
 }
-@media (max-width: 575.98px) {
+@media (max-width: 767.98px) {
   .top-bar {
     padding: 16px 0;
     justify-content: space-between;
@@ -1271,7 +1280,6 @@ html {
 .navbar__list {
   display: flex;
   align-items: center;
-  gap: 30px;
 }
 .navbar__link {
   display: flex;
@@ -1280,6 +1288,17 @@ html {
   font-size: 1.5rem;
   font-weight: 500;
   line-height: 146.667%;
+  height: 50px;
+  padding: 0 15px;
+}
+.navbar__item:first-child a {
+  padding-left: 0;
+}
+.navbar__item:last-child a {
+  padding-right: 0;
+}
+.navbar__item:hover .dropdown {
+  display: block;
 }
 .navbar__arrow {
   margin-top: 3px;
@@ -1291,7 +1310,7 @@ html {
   align-items: center;
   gap: 20px;
 }
-@media (max-width: 575.98px) {
+@media (max-width: 767.98px) {
   .top-act {
     margin-left: 0;
   }
@@ -1354,7 +1373,7 @@ html {
     margin-left: 40px;
   }
 }
-@media (max-width: 575.98px) {
+@media (max-width: 767.98px) {
   .logo {
     margin-left: 0;
   }
@@ -1373,6 +1392,112 @@ html {
   .logo__img {
     width: 24px;
   }
+}
+
+.dropdown {
+  position: absolute;
+  padding-top: 54px;
+  left: 0;
+  display: none;
+  width: min(1240px, 100%);
+}
+.dropdown__inner {
+  --inner-max-height: min(582px, 100vh - 158px);
+  --inner-padding: 60px;
+  border-radius: 20px;
+  background: var(--dropdown-bg-color);
+  box-shadow: 0px 40px 90px 20px var(--dropdown-shadown-color);
+  padding: 30px;
+  position: relative;
+  max-height: var(--inner-max-height);
+}
+.dropdown__inner::before {
+  content: url("../icons/dropdown-arrow.svg");
+  position: absolute;
+  top: -16px;
+  left: var(--arrow-left-pos);
+  translate: -50%;
+}
+
+.top-menu {
+  position: relative;
+}
+.top-menu__main {
+  height: calc(var(--inner-max-height) - var(--inner-padding));
+  width: 292px;
+  border-right: 1px solid var(--top-menu-border-color);
+  overflow-y: auto;
+}
+
+.menu-column {
+  display: flex;
+  gap: 14px;
+}
+.menu-column + .menu-column {
+  margin-top: 30px;
+}
+.menu-column__icon {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+.menu-column__content {
+  flex: 1;
+}
+.menu-column__icon-1 {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+.menu-column__icon-2 {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  filter: var(--menu-column-icon-color);
+}
+.menu-column__heading {
+  margin-top: 4px;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 150%;
+}
+.menu-column__list {
+  margin-top: 19px;
+}
+.menu-column__item--active .sub-menu {
+  display: grid;
+}
+.menu-column__item--active > .menu-column__link, .menu-column__item:hover > .menu-column__link {
+  color: #0071DC;
+  font-weight: 500;
+}
+.menu-column__link {
+  display: block;
+  font-size: 1.4rem;
+  line-height: 142.857%;
+  padding: 7px 0;
+}
+
+.sub-menu {
+  position: absolute;
+  inset: 0 0 0 296px;
+  padding-left: 30px;
+  overflow-y: auto;
+  display: none;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+.sub-menu--not-main {
+  position: initial;
+  display: grid;
+  inset: initial;
+  padding-left: 0;
+  grid-template-columns: repeat(4, 1fr);
+  height: calc(var(--inner-max-height) - var(--inner-padding));
 }
 
 /*# sourceMappingURL=main.css.map */
