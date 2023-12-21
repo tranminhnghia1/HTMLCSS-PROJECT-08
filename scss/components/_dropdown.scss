@@ -1,9 +1,16 @@
+@use '../abstracts';
+
 .dropdown {
     position: absolute;
     padding-top: 54px;
     left: 0;
     display: none;
     width: min(1240px, 100%);
+
+    @include abstracts.breakpoint(lg) {
+        position: initial;
+        padding-top: 0;
+    }
 
     &__inner {
         --inner-max-height: min(582px, 100vh - 158px);
@@ -23,11 +30,23 @@
             translate: -50%;
             //filter: var(--dropdown-arrow-color);
         }
+        @include abstracts.breakpoint(lg) {
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+            padding: 0 40px;
+            &::before{
+                content: none;
+            }
+        }
+        @include abstracts.breakpoint(sm) {
+            padding: 0 20px;
+        }
     }
 }
 
 .top-menu {
-    
+
     position: relative;
 
     &__main {
@@ -35,14 +54,23 @@
         width: 292px;
         border-right: 1px solid var(--top-menu-border-color);
         overflow-y: auto;
+        @include abstracts.breakpoint(lg) {
+            width: 100%;
+            height: auto;
+            border-right:none;
+        }
     }
 }
 
 .menu-column {
     display: flex;
     gap: 14px;
-    + .menu-column{
+
+    +.menu-column {
         margin-top: 30px;
+    }
+    @include abstracts.breakpoint(lg) {
+        margin-top: 10px;
     }
     &__icon {
         position: relative;
@@ -76,48 +104,66 @@
         font-size: 1.6rem;
         font-weight: 500;
         line-height: 150%;
-
+        @include abstracts.breakpoint(lg) {
+            margin-bottom: 26px;
+        }
     }
 
     &__list {
         margin-top: 19px;
+        @include abstracts.breakpoint(lg) {
+            margin-top: 0;
+        }
     }
-    &__item{
-        &--active .sub-menu{
+
+    &__item {
+        &--active .sub-menu {
             display: grid;
         }
-    } 
-
-    &__item--active > &__link,
-    &__item:hover > &__link{
-            color: #0071DC;
-            font-weight: 500;
     }
+
+    &__item--active>&__link,
+    &__item:hover>&__link {
+        color: #0071DC;
+        font-weight: 500;
+    }
+
     &__link {
         display: block;
         font-size: 1.4rem;
         line-height: 142.857%;
         padding: 7px 0;
 
-        
+
     }
 }
 
-.sub-menu{
+.sub-menu {
     position: absolute;
     inset: 0 0 0 296px;
     padding-left: 30px;
-    overflow-y: auto;
+   
     display: none;
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
+    overflow-y: auto;
 
-    &--not-main{
+    @include abstracts.breakpoint(lg) {
+        position: initial;
+        grid-template-columns: 1fr;
+        padding-left: 0;
+    }
+    &--not-main {
         position: initial;
         display: grid;
         inset: initial;
         padding-left: 0;
         grid-template-columns: repeat(4, 1fr);
         height: calc(var(--inner-max-height) - var(--inner-padding));
+        @include abstracts.breakpoint(lg) {
+           
+            grid-template-columns: 1fr;
+            height: auto;
+        }
     }
 }
